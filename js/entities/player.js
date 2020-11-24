@@ -10,6 +10,8 @@ class player extends yentity
     this.team = 1
     //this.w = 0
     //this.h = 0
+    this.zi = 9999999999999999999999999
+    // this.map is the tilemap
   }//end constructor
   
   update()
@@ -18,6 +20,7 @@ class player extends yentity
 	super.update();
     t.move();
     t.move_unit();
+    t.cancel_unit_selection()
   }//end update
   
   move() {
@@ -44,7 +47,8 @@ class player extends yentity
     if(mouseWentUp()) {
       var tcx = camera.mouseX / t.tw //tilemap click position x
       var tcy = camera.mouseY / t.th //tilemap click position y
-      console.log(tcx, tcy)
+      console.log(t.map)
+      if(tcx < 0 || tcy < 0 || tcx > t.map[0].length-1 || tcy > t.map.length-1) return;
       for(var i of t.get_by_type("unit")) {
         if(i.selected && i.team == t.team) {
           i.stxy(tcx, tcy)
@@ -53,6 +57,15 @@ class player extends yentity
         }
       }//end loop
     }//end if
+  }
+
+  cancel_unit_selection() {
+    var t = this;
+    if(keyDown("SPACE")) {
+      for(var u of t.get_by_type("unit")) {
+        u.cancel_selection()
+      }
+    }
   }
   
   

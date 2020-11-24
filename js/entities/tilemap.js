@@ -55,6 +55,7 @@ class tilemap extends yentity
       var p = new player(x, y)
       p.tw = t.tilew
       p.th = t.tileh
+      p.map = t.map
       t.world.add(p)
     }
     if (id == 4) {
